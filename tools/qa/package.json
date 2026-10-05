@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "node reflection.mjs && node guidance.mjs && node site.mjs && node accessibility.mjs"
+    "test": "node reflection.mjs && node guidance.mjs && node site.mjs && node accessibility.mjs && node refinement.mjs"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.13.0",

@@ -37,6 +37,17 @@
 .reflection-steps [aria-current] .step-current { visibility: visible; }
 .field-error { color: var(--ink); font-weight: 750; border-left: 4px solid var(--blue-deep); padding: 10px 14px; background: var(--paper-deep); font-size: .95rem; }
 [aria-invalid="true"] { border: 2px solid var(--blue-deep) !important; }
+.field-requirement { display: inline-block; font-size: .7rem; font-weight: 650; line-height: 1.5; padding: 2px 6px; border: 1px solid var(--line-strong); border-radius: 4px; background: var(--paper-deep); margin-inline: 4px; }
+.intro-choices { align-items: stretch; }
+.evidence-pair { display: grid; gap: 12px; margin-block: 20px; }
+.evidence-pair>section { padding: 12px 14px; border-left: 3px solid var(--blue-deep); background: var(--paper-deep); min-width: 0; }
+.reflection-source .evidence-pair h3,.reflection-source .evidence-pair h4 { margin: 0 0 8px; font-family: var(--font-body); font-size: .9rem; font-weight: 750; line-height: 1.5; }
+.evidence-pair p { margin: 0; }
+#summary-supporting { margin-block: 24px; padding: 12px 0; border-block: 1px solid var(--line); }
+#summary-supporting>summary { font-weight: 750; min-height: 44px; padding-block: 10px; }
+#summary-reflection dt { margin-top: 18px; font-weight: 750; }
+#summary-reflection dd { margin: 4px 0 16px; white-space: pre-wrap; overflow-wrap: anywhere; }
+#summary-content dd { white-space: pre-wrap; overflow-wrap: anywhere; }
 @media(max-width:640px) { .reflection-sources,.reflection-time { grid-template-columns: 1fr; } .reflection-steps button { flex: 1 1 40%; } .reflection-hero h1 { font-size: 3rem; } }
 @media print {
   html { --paper: white !important; --paper-deep: #f5f5f5 !important; --surface-solid: white !important; --ink: black !important; --ink-soft: #333 !important; --blue: #222 !important; --blue-deep: black !important; --line: #777 !important; --line-strong: #555 !important; }
@@ -45,4 +56,9 @@
   .reflection-shell { width: 100%; padding: 0; margin: 0; max-width: none; }
   #summary-content dt { margin-top: 10px; } #summary-content dd { margin-bottom: 8px; }
   .reflection-source { break-inside: avoid; } .reflection-step textarea { min-height: 70px; background: white; color: black; }
+  #summary-supporting::details-content,.reflection-source details::details-content { content-visibility: visible !important; display: block !important; }
+  #summary-supporting>*:not(summary),.reflection-source details>*:not(summary) { display: block !important; }
+  #summary-supporting { border: 0; margin: 12px 0; padding: 0; }
+  #summary-supporting>summary { list-style: none; }
+  #summary-supporting>summary::-webkit-details-marker { display: none; }
 }

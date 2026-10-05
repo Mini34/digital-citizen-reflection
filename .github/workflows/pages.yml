@@ -39,6 +39,7 @@ jobs:
             node tools/qa/guidance.mjs
             node tools/qa/site.mjs
             node tools/qa/accessibility.mjs
+            node tools/qa/refinement.mjs
           else
             node tools/qa/retired.mjs
           fi

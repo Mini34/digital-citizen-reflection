@@ -26,6 +26,7 @@ QA_BROWSER=chromium node tools/qa/reflection.mjs
 QA_BROWSER=chromium node tools/qa/guidance.mjs
 QA_BROWSER=chromium node tools/qa/site.mjs
 QA_BROWSER=chromium node tools/qa/accessibility.mjs
+QA_BROWSER=chromium node tools/qa/refinement.mjs
 ```
 
 On Windows, set `QA_BROWSER` using your shell environment syntax. Local checks otherwise use installed Chrome. The workflow uses Chromium. Playwright and axe are development tools and are excluded from the Pages package.
@@ -38,9 +39,9 @@ Compatible saved reflections retain `signal-and-self-reflection-v1`, since the t
 
 ## Interface and accessibility
 
-Every page has Accessibility options for text size, text spacing, stronger contrast, and reduced motion. These viewing choices are remembered separately from opt-in reflection drafts; Reset reading options removes only the reading key. System reduced motion and forced colors are respected, and controls remain usable when browser storage is blocked.
+Every page offers Light and Dark appearance modes and Accessibility options for text size, text spacing, stronger contrast, and reduced motion. Light is the default; legacy Signal and Midnight choices are retained, and Quiet falls back to Light. These viewing choices are remembered separately from opt-in reflection drafts; Reset reading options removes only the reading key. System reduced motion and forced colors are respected, and controls remain usable when browser storage is blocked.
 
-The activity provides keyboard navigation, a text label for the current step, associated field hints and errors, and Escape to close requested help. Saving does not repeat identical status announcements on every keystroke. The time comparison has an equivalent text calculation. The Resources QR has descriptive alt text and the same destination as a normal link. The static worksheet is a non-submitting form landmark, so JavaScript-disabled keyboard entries cannot enter a URL. The Accessibility page explains these controls and the paper/plain-text alternatives.
+The introduction offers a personal reflection or a fictional news example. Required and optional fields are labelled before completion. Evidence pairs findings with their limitations. The action plan highlights the change, progress check, and review date, with the supporting reflection expandable on screen and always included in text downloads and printouts. The activity provides keyboard navigation, a text label for the current step, associated field hints and errors, and Escape to close requested help. Saving does not repeat identical status announcements on every keystroke. The time comparison has an equivalent text calculation. The Resources QR has descriptive alt text and the same destination as a normal link. The static worksheet is a non-submitting form landmark, so JavaScript-disabled keyboard entries cannot enter a URL. The Accessibility page explains these controls and the paper/plain-text alternatives.
 
 ## Presentation and publishing
 

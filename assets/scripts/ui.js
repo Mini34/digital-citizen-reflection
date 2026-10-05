@@ -4,9 +4,9 @@
   document.querySelectorAll('.js-only').forEach(node=>node.hidden=false);
   const themeSelect=document.querySelector('#theme'), themeKey='digital-citizen-reflection-theme';
   const applyTheme=value=>{
-    const theme=['signal','midnight','quiet'].includes(value)?value:'signal';
+    const theme=['signal','midnight'].includes(value)?value:'signal';
     root.dataset.theme=theme;themeSelect.value=theme;
-    document.querySelector('meta[name="theme-color"]').content={signal:'#f4f0e8',midnight:'#0b1020',quiet:'#efeee9'}[theme];
+    document.querySelector('meta[name="theme-color"]').content={signal:'#f4f0e8',midnight:'#0b1020'}[theme];
   };
   try{applyTheme(localStorage.getItem(themeKey));}catch{applyTheme('signal');}
   themeSelect.addEventListener('change',()=>{

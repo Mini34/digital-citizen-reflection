@@ -48,7 +48,8 @@
   }
   function updateRisk() {
     const custom=$('#risk').value==='other';$('#riskDetail').required=custom;
-    $('label[for="riskDetail"]').textContent=custom?'Describe your risk':'Describe the risk (optional)';
+    $('label[for="riskDetail"] [data-field-label]').textContent=custom?'Describe your risk':'Describe the risk';
+    $('label[for="riskDetail"] [data-field-requirement]').textContent=custom?'Required':'Optional';
     $('[data-guidance-id="riskDetail"] .guidance-open .visually-hidden').textContent=custom?': Describe your risk':': Describe the risk (optional)';
     clearError($('#riskDetail'));
   }
@@ -91,7 +92,7 @@
   function requestSwitch(id, example) {
     $('#reflection-topic').value=activeTopic;
     if (!hasAnswers()) { loadNew(id,example); return; }
-    pending={id,example}; $('#reflection-switch-confirm').hidden=false; $('#reflection-switch-yes').focus();
+    navigate(0,false);pending={id,example}; $('#reflection-switch-confirm').hidden=false; $('#reflection-switch-yes').focus();
   }
   function complete() {
     for (let i=0;i<4;i++) {
@@ -112,8 +113,9 @@
   }
   function showSummary() {
     $('#summary-mode').textContent=mode==='example'?'Fictional example action plan · edited examples remain fictional':'Personal action plan · kept in this browser';
-    $('#summary-content').replaceChildren();
-    for(const [label,value] of summaryRows()) {const dt=document.createElement('dt'),dd=document.createElement('dd');dt.textContent=label;dd.textContent=value;$('#summary-content').append(dt,dd);}
+    $('#summary-content').replaceChildren();$('#summary-reflection').replaceChildren();$('#summary-supporting').open=false;
+    const rows=summaryRows(), priorities=['Change to try','Check progress','Review date'];
+    for(const [label,value] of [...priorities.map(label=>rows.find(row=>row[0]===label)),...rows.filter(row=>!priorities.includes(row[0]))]) {const dt=document.createElement('dt'),dd=document.createElement('dd');dt.textContent=label;dd.textContent=value;(priorities.includes(label)?$('#summary-content'):$('#summary-reflection')).append(dt,dd);}
     form.hidden=true; $('#reflection-summary').hidden=false; $('#summary-title').focus(); persist();
   }
   function clear() {
@@ -126,6 +128,8 @@
   $('#reflection-topic').addEventListener('change',event=>requestSwitch(event.target.value,false));
   $('#reflection-example').addEventListener('click',()=>requestSwitch(activeTopic,true));
   $('#reflection-own').addEventListener('click',()=>requestSwitch(activeTopic,false));
+  $('#reflection-start-own').addEventListener('click',event=>{event.preventDefault();if(mode==='own')navigate(step);else requestSwitch(activeTopic,false);});
+  $('#reflection-start-example').addEventListener('click',event=>{event.preventDefault();requestSwitch('news',true);});
   $('#reflection-switch-yes').addEventListener('click',()=>{const change=pending;pending=null;$('#reflection-switch-confirm').hidden=true;if(change)loadNew(change.id,change.example);});
   $('#reflection-switch-no').addEventListener('click',()=>{pending=null;$('#reflection-switch-confirm').hidden=true;$('#reflection-topic').focus();});
   $('#reflection-next').addEventListener('click',()=>navigate(Math.min(step+1,3)));
@@ -145,6 +149,9 @@
     const blob=new Blob([text],{type:'text/plain;charset=utf-8'}), url=URL.createObjectURL(blob), a=document.createElement('a');a.href=url;a.download='digital-citizen-action-plan.txt';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
   });
   $('#reflection-print').addEventListener('click',()=>window.print());
+  let printDisclosures=[];
+  window.addEventListener('beforeprint',()=>{printDisclosures=[$('#summary-supporting'),...$$('.reflection-source details')].map(node=>({node,open:node.open}));printDisclosures.forEach(({node})=>node.open=true);});
+  window.addEventListener('afterprint',()=>{printDisclosures.forEach(({node,open})=>node.open=open);printDisclosures=[];});
   renderTopic(); $('#reviewDate').value=dateAhead();renderMode();arithmetic();navigate(0,false);$('.reflection-nojs').hidden=true;
   try { const raw=localStorage.getItem(key);if(raw){try{const s=JSON.parse(raw);if(!valid(s))throw Error('Invalid draft');stored=s;$('#reflection-resume').hidden=false;status('Saved draft found. Choose Resume to open it.');}catch{localStorage.removeItem(key);status('The saved draft could not be read and was removed. Start a new reflection.');}}}catch{status('Browser storage is unavailable. Continue temporarily or download your action plan.');}
 })();

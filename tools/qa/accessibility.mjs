@@ -20,7 +20,7 @@ try{
  await page.goto(base+'/resources.html');check('Reading choices persist across pages',await page.evaluate(()=>document.documentElement.dataset.textSize==='extra-large'&&document.documentElement.dataset.spacious==='true'));
  check('QR image has meaningful alternative text and equivalent link',await page.locator('.resource-qr img').getAttribute('alt')==='QR code for the Digital Citizen Reflection activity'&&await page.locator('.resource-qr a').getAttribute('href')==='index.html');
  await options();await page.click('#reading-reset');check('Reset removes reading storage',await page.evaluate(k=>localStorage.getItem(k)===null,key));
- for(const theme of ['signal','midnight','quiet']){
+ for(const theme of ['signal','midnight']){
   await page.selectOption('#theme',theme);
   for(const route of ['','evidence.html','resources.html','privacy.html','accessibility.html','script.html']){
    await page.goto(base+'/'+route);await options();await page.selectOption('#reading-size','extra-large');await page.check('#reading-spacing');await page.check('#reading-contrast');await page.check('#reading-motion');
@@ -30,7 +30,7 @@ try{
   }
  }
  await page.goto(base+'/');await page.click('#reflection-example');
- for(const theme of ['signal','midnight','quiet']){
+ for(const theme of ['signal','midnight']){
   await page.selectOption('#theme',theme);await options();await page.check('#reading-contrast');await page.selectOption('#reading-size','extra-large');await page.check('#reading-spacing');await page.locator('#reading-options>summary').click();
   for(let step=0;step<4;step++){
    await page.click(`[data-reflection-step="${step}"]`);check(theme+' step '+step+' current identified in text',await page.locator('[aria-current="step"] .step-current').isVisible());check(theme+' step '+step+' no horizontal overflow',await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));await scan(theme+' step '+step);
@@ -44,7 +44,7 @@ try{
  await page.fill('#observation','   ');await page.click('[data-reflection-step="3"]');await page.click('#reflection-finish');check('Whitespace is treated as an empty answer',await page.locator('#observation').getAttribute('aria-invalid')==='true');
  await page.fill('#observation','ACCESSIBILITY_PRIVATE_6241');check('Valid editing clears the inline error',!(await page.locator('#observation-error').isVisible())&&await page.locator('#observation').getAttribute('aria-invalid')===null);
  await page.locator('[data-guidance-id="notice"] .guidance-open').click();await page.locator('#helper-notice-answer').press('Escape');check('Escape closes helper and restores its opening button',!await page.locator('#helper-notice-panel').isVisible()&&await page.locator('[data-guidance-id="notice"] .guidance-open').evaluate(n=>n===document.activeElement));
- await page.check('#reflection-save');await options();await page.selectOption('#reading-size','large');await page.click('#reading-reset');check('Reading reset preserves reflection draft and theme',await page.evaluate(k=>JSON.parse(localStorage.getItem(k)).observation==='ACCESSIBILITY_PRIVATE_6241',reflectionKey)&&await page.inputValue('#theme')==='quiet');
+ await page.check('#reflection-save');await options();await page.selectOption('#reading-size','large');await page.click('#reading-reset');check('Reading reset preserves reflection draft and theme',await page.evaluate(k=>JSON.parse(localStorage.getItem(k)).observation==='ACCESSIBILITY_PRIVATE_6241',reflectionKey)&&await page.inputValue('#theme')==='midnight');
  await page.evaluate(()=>{window.statusChanges=0;const n=document.querySelector('#reflection-storage-status');new MutationObserver(records=>window.statusChanges+=records.length).observe(n,{childList:true,characterData:true,subtree:true});});await page.fill('#context','A quiet evening');await page.fill('#context','A different evening');check('Saving does not reannounce identical status on each edit',await page.evaluate(()=>window.statusChanges===0));
  await page.emulateMedia({reducedMotion:'reduce'});check('System reduced motion suppresses transitions',await page.locator('#reflection-next').evaluate(n=>getComputedStyle(n).transitionDuration==='0s'));await page.emulateMedia({reducedMotion:'no-preference'});await page.check('#reading-motion');check('Manual reduced motion suppresses transitions',await page.locator('#reflection-next').evaluate(n=>getComputedStyle(n).transitionDuration==='0s'));
  await page.emulateMedia({forcedColors:'active'});await page.locator('#reading-options>summary').click();await page.click('[data-reflection-step="1"]');check('Forced colors keep step outlines visible',await page.locator('[aria-current="step"]').evaluate(n=>parseFloat(getComputedStyle(n).borderTopWidth)>=3));await page.emulateMedia({forcedColors:'none'});

@@ -60,6 +60,7 @@ summary{min-height:44px;padding-block:10px}
 .reflection-sources{gap:20px}
 .reflection-source{padding:22px;background:var(--surface-solid);border:1px solid var(--line);border-top:3px solid var(--blue);border-radius:12px}
 .reflection-source h2,.reflection-source h3{font-size:1.6rem;line-height:1.25;margin-top:8px}
+.reflection-source .evidence-pair h3,.reflection-source .evidence-pair h4{font:750 .9rem/1.5 var(--font-body);margin:0 0 8px}
 .reflection-source .mono-label{margin-top:0}
 .reflection-source p{font-size:.9rem}
 .reflection-source a{display:inline-flex;align-items:center;min-height:44px}
@@ -75,6 +76,8 @@ summary{min-height:44px;padding-block:10px}
 .reflection-navigation{padding-top:20px}
 #summary-content{display:grid;grid-template-columns:12rem minmax(0,1fr);column-gap:24px}
 #summary-content dt,#summary-content dd{margin:0;padding-block:16px;border-bottom:1px solid var(--line)}
+#summary-content dt{font-weight:750;color:var(--blue-deep)}
+.intro-choices{gap:12px;flex-wrap:wrap}
 .reflection-examples{max-width:960px;padding-top:12px}
 .reflection-examples h2{font-size:clamp(2rem,3.5vw,2.75rem)}
 .reflection-example{padding:4px 0}

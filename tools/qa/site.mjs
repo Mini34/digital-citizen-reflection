@@ -11,7 +11,7 @@ try{
  for(const route of ['','evidence.html','resources.html','privacy.html','accessibility.html','script.html']){
   await page.goto(base+'/'+route);check('Canonical '+route,(await page.locator('link[rel="canonical"]').getAttribute('href'))==='https://mini34.github.io/digital-citizen-reflection/'+route);
   check('Project navigation '+route,(await page.locator('.site-nav a').allTextContents()).join('|')==='Activity|Evidence|Resources|Privacy');
-  for(const theme of ['signal','midnight','quiet']){
+  for(const theme of ['signal','midnight']){
    await page.selectOption('#theme',theme);await page.setViewportSize({width:390,height:844});check(route+' '+theme+' mobile layout',await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
    const scan=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa','wcag22aa']).analyze();check(route+' '+theme+' accessibility',!scan.violations.length);
   }
