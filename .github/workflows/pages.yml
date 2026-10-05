@@ -1,0 +1,70 @@
+name: Validate and publish Digital Citizen Reflection
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: |
+          python tools/validate_site.py
+          python tools/qa/records_test.py
+          for file in assets/scripts/*.js activity/*.js; do node --check "$file"; done
+      - name: Install pinned browser tooling
+        run: |
+          npm install --global pnpm@11.19.0
+          pnpm --dir tools/qa install --frozen-lockfile
+          pnpm --dir tools/qa exec playwright install --with-deps chromium
+      - name: Activity and private guidance checks
+        env:
+          QA_BROWSER: chromium
+        run: |
+          python tools/serve_site.py --port 8001 > /tmp/reflection-preview.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid"' EXIT
+          for attempt in 1 2 3 4 5; do curl --fail --silent http://127.0.0.1:8001/ > /dev/null && break || sleep 1; done
+          if python -c "import json,sys;sys.exit(json.load(open('site.json'))['mode']!='presentation')"; then
+            node tools/qa/reflection.mjs
+            node tools/qa/guidance.mjs
+            node tools/qa/site.mjs
+          else
+            node tools/qa/retired.mjs
+          fi
+  deploy:
+    if: github.event_name != 'pull_request'
+    needs: validate
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    concurrency:
+      group: pages
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+      - uses: actions/configure-pages@v5
+      - run: python tools/check_return_destination.py
+      - run: python tools/package_site.py
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .site-dist
+      - uses: actions/deploy-pages@v5
+        id: deployment

@@ -1,0 +1,354 @@
+{
+  "version": 1,
+  "checkedAt": "2026-10-04",
+  "sources": [
+    {
+      "id": "who",
+      "topics": [
+        "attention",
+        "social"
+      ],
+      "title": "Online habits and well-being",
+      "publisher": "WHO Regional Office for Europe",
+      "date": "2024-09-25",
+      "population": "Almost 280,000 young people aged 11, 13 and 15 in 44 countries and regions in Europe, central Asia and Canada; surveyed in 2022.",
+      "finding": "The survey found signs of problematic social media use in 11% of respondents. Heavy use without those problems was also associated with stronger peer support.",
+      "limit": "A population survey does not diagnose an individual or establish a universal safe number of minutes. Associations do not prove that one habit caused an outcome.",
+      "prompt": "What is the habit helping you do, and what is it getting in the way of?",
+      "url": "https://www.who.int/europe/news/item/25-09-2024-teens--screens-and-mental-health"
+    },
+    {
+      "id": "mil",
+      "topics": [
+        "news",
+        "ai",
+        "attention"
+      ],
+      "title": "Judging information before using it",
+      "publisher": "UNESCO",
+      "date": "Publication date not stated; checked 2026-10-04",
+      "population": "General media and information literacy guidance for people engaging with information online.",
+      "finding": "UNESCO describes media literacy as the skills needed to engage critically with information and navigate digital environments safely.",
+      "limit": "This is educational guidance, not an experiment measuring how much a particular checking routine improves accuracy.",
+      "prompt": "Who made the claim, what original evidence supports it, and what context is missing?",
+      "url": "https://www.unesco.org/en/media-information-literacy"
+    },
+    {
+      "id": "cyber",
+      "topics": [
+        "social",
+        "ai"
+      ],
+      "title": "Keeping personal information private",
+      "publisher": "Government of Canada · Get Cyber Safe",
+      "date": "Page modified 2021-10-27; checked 2026-10-04",
+      "population": "General guidance for people using online accounts; not a participant study.",
+      "finding": "Get Cyber Safe recommends unique account passwords and multi-factor authentication, and asks users to take precautions before posting on social media.",
+      "limit": "These steps reduce particular exposures. They cannot guarantee account security or remove information that others have already copied.",
+      "prompt": "Could a post or prompt reveal more about you or someone else than you intended?",
+      "url": "https://www.getcybersafe.gc.ca/en/secure-your-accounts"
+    },
+    {
+      "id": "genai",
+      "topics": [
+        "ai",
+        "news"
+      ],
+      "title": "Human judgment when using generative AI",
+      "publisher": "UNESCO · Fengchun Miao and Wayne Holmes",
+      "date": "Published 2023-09-07; overview updated 2026-01-16",
+      "population": "Global guidance for education and research, including educators and policy-makers.",
+      "finding": "UNESCO's guidance emphasizes human agency, data privacy, and educational validation when using generative AI.",
+      "limit": "Policy guidance is not a test of a specific AI tool. A polished answer still needs evidence appropriate to the task.",
+      "prompt": "What will you verify yourself, and what information should stay out of the prompt?",
+      "url": "https://www.unesco.org/en/articles/guidance-generative-ai-education-and-research"
+    }
+  ],
+  "topics": [
+    {
+      "id": "attention",
+      "label": "Screen time & attention",
+      "description": "Look at when and why you use a screen, and what you want that time to do.",
+      "risks": [
+        "Losing time intended for another activity",
+        "Interrupting focus",
+        "Delaying a planned bedtime"
+      ],
+      "example": {
+        "observation": "I plan to scroll for ten minutes, then keep going for about an hour.",
+        "context": "After homework, while I am deciding what to do next.",
+        "notice": "I enjoy catching up, but I sometimes postpone the drawing I wanted to finish.",
+        "evidenceResponse": "The WHO survey gives context, but it cannot tell me whether my own sixty minutes are a problem. I need to observe what gets displaced.",
+        "risk": "Losing time intended for another activity",
+        "benefit": "Keeping up with friends and discovering art.",
+        "change": "Set aside twenty minutes for scrolling, then put my phone away and start drawing.",
+        "check": "Note on three evenings whether I started drawing when I planned to.",
+        "before": "60",
+        "after": "20"
+      }
+    },
+    {
+      "id": "social",
+      "label": "Social media & privacy",
+      "description": "Consider the audience for a post and the details it reveals.",
+      "risks": [
+        "Revealing location or personal details",
+        "Sharing someone else's information",
+        "Posting to a wider audience than intended"
+      ],
+      "example": {
+        "observation": "I share photos from a club meeting before checking what is in the background.",
+        "context": "Posting a story so friends can see what our group is doing.",
+        "notice": "A noticeboard in one photo includes a member's contact details.",
+        "evidenceResponse": "Canadian security guidance supports checking personal details before posting. It cannot promise that a deleted post disappears from every copy.",
+        "risk": "Sharing someone else's information",
+        "benefit": "Celebrating our club and staying connected.",
+        "change": "Check the background and ask people pictured before posting the next club photo.",
+        "check": "Use a brief permission and background check for my next three posts."
+      }
+    },
+    {
+      "id": "news",
+      "label": "News & information",
+      "description": "Trace an appealing claim to its source before sharing it.",
+      "risks": [
+        "Sharing a claim without evidence",
+        "Losing important context",
+        "Mistaking an old claim for current news"
+      ],
+      "example": {
+        "observation": "I almost share a viral post saying our city's buses will be free next month.",
+        "context": "A friend shares a cropped screenshot in a group chat.",
+        "notice": "The screenshot has no date or link to an official announcement.",
+        "evidenceResponse": "Media literacy guidance helps me ask for the original source and context. Neither source here verifies this fictional bus claim.",
+        "risk": "Sharing a claim without evidence",
+        "benefit": "Helping friends find useful transport information.",
+        "change": "Find a dated transit-agency announcement before forwarding the claim. If I cannot verify it, say that clearly.",
+        "check": "For the next three news posts I consider sharing, record whether I found an original source."
+      }
+    },
+    {
+      "id": "ai",
+      "label": "AI-assisted tools",
+      "description": "Decide what the tool can help with and what you need to check yourself.",
+      "risks": [
+        "Using an unsupported answer",
+        "Including private information in a prompt",
+        "Skipping my own learning or task rules"
+      ],
+      "example": {
+        "observation": "I use an AI summary as a starting point without checking its references.",
+        "context": "Learning about a topic for a project where AI assistance is permitted.",
+        "notice": "The summary sounds clear, but I cannot yet explain where its main claim came from.",
+        "evidenceResponse": "UNESCO recommends human agency and educational validation. That is a reason to check the answer, not evidence that this particular summary is correct.",
+        "risk": "Using an unsupported answer",
+        "benefit": "Getting a starting explanation and questions to investigate.",
+        "change": "Check the main claim against an original source and write an explanation in my own words.",
+        "check": "Before using my next AI summary, note the original source and what I corrected."
+      }
+    }
+  ],
+  "guidance": {
+    "observation": {
+      "prompts": [
+        {
+          "question": "What do you do online?",
+          "starter": "When I go online, I",
+          "uncertain": "I am not sure yet."
+        },
+        {
+          "question": "How often, or for about how long?",
+          "starter": "This usually happens",
+          "uncertain": "I am not sure yet."
+        },
+        {
+          "question": "What are you hoping to get from it?",
+          "starter": "I'm hoping to",
+          "uncertain": "I am not sure yet."
+        }
+      ],
+      "hints": {
+        "attention": "Think about what the screen time helps you do, and whether another activity gets displaced. Minutes alone do not show harm.",
+        "social": "Consider the intended audience, the people pictured, and any details visible in a post. You do not need to include names.",
+        "news": "Consider the original source, date, and missing context. The fictional bus claim is not verified by the guidance cards.",
+        "ai": "Consider what the tool helps with, what you verify yourself, and the rules for the task. Avoid private prompt details."
+      }
+    },
+    "context": {
+      "prompts": [
+        {
+          "question": "When does this usually happen?",
+          "starter": "This happens",
+          "uncertain": "I am not sure yet."
+        },
+        {
+          "question": "Where are you, or what are you doing?",
+          "starter": "I'm usually",
+          "uncertain": "I am not sure yet."
+        },
+        {
+          "question": "What tends to start the habit?",
+          "starter": "One thing that prompts it is",
+          "uncertain": "I am not sure yet."
+        }
+      ],
+      "hints": {
+        "attention": "Think about what the screen time helps you do, and whether another activity gets displaced. Minutes alone do not show harm.",
+        "social": "Consider the intended audience, the people pictured, and any details visible in a post. You do not need to include names.",
+        "news": "Consider the original source, date, and missing context. The fictional bus claim is not verified by the guidance cards.",
+        "ai": "Consider what the tool helps with, what you verify yourself, and the rules for the task. Avoid private prompt details."
+      }
+    },
+    "notice": {
+      "prompts": [
+        {
+          "question": "What changes, if anything, after you finish?",
+          "starter": "Afterward, I notice",
+          "uncertain": "I am not sure yet.",
+          "noChange": "Afterward, I notice no clear change."
+        },
+        {
+          "question": "Can you describe one specific example?",
+          "starter": "One example is",
+          "uncertain": "I am not sure yet."
+        },
+        {
+          "question": "What do you enjoy or want to keep?",
+          "starter": "I want to keep",
+          "uncertain": "I am not sure yet."
+        }
+      ],
+      "hints": {
+        "attention": "Think about what the screen time helps you do, and whether another activity gets displaced. Minutes alone do not show harm.",
+        "social": "Consider the intended audience, the people pictured, and any details visible in a post. You do not need to include names.",
+        "news": "Consider the original source, date, and missing context. The fictional bus claim is not verified by the guidance cards.",
+        "ai": "Consider what the tool helps with, what you verify yourself, and the rules for the task. Avoid private prompt details."
+      }
+    },
+    "evidenceResponse": {
+      "prompts": [
+        {
+          "question": "Which finding or piece of guidance matters here?",
+          "starter": "The source says",
+          "uncertain": "I am not sure yet."
+        },
+        {
+          "question": "What does it help you understand?",
+          "starter": "It helps me understand",
+          "uncertain": "I am not sure yet."
+        },
+        {
+          "question": "What can it not establish, or what still needs checking?",
+          "starter": "I still need to check",
+          "uncertain": "I am not sure yet."
+        }
+      ],
+      "hints": {
+        "attention": "Think about what the screen time helps you do, and whether another activity gets displaced. Minutes alone do not show harm.",
+        "social": "Consider the intended audience, the people pictured, and any details visible in a post. You do not need to include names.",
+        "news": "Consider the original source, date, and missing context. The fictional bus claim is not verified by the guidance cards.",
+        "ai": "Consider what the tool helps with, what you verify yourself, and the rules for the task. Avoid private prompt details."
+      }
+    },
+    "riskDetail": {
+      "prompts": [
+        {
+          "question": "What could get in the way, or go wrong?",
+          "starter": "The risk I want to address is",
+          "uncertain": "I am not sure yet."
+        },
+        {
+          "question": "When might that risk matter?",
+          "starter": "It matters most",
+          "uncertain": "I am not sure yet."
+        },
+        {
+          "question": "Why is it worth paying attention to?",
+          "starter": "I'm paying attention because",
+          "uncertain": "I am not sure yet."
+        }
+      ],
+      "hints": {
+        "attention": "Think about what the screen time helps you do, and whether another activity gets displaced. Minutes alone do not show harm.",
+        "social": "Consider the intended audience, the people pictured, and any details visible in a post. You do not need to include names.",
+        "news": "Consider the original source, date, and missing context. The fictional bus claim is not verified by the guidance cards.",
+        "ai": "Consider what the tool helps with, what you verify yourself, and the rules for the task. Avoid private prompt details."
+      }
+    },
+    "benefit": {
+      "prompts": [
+        {
+          "question": "What do you like or find useful about this habit?",
+          "starter": "The benefit I want to keep is",
+          "uncertain": "I am not sure yet."
+        },
+        {
+          "question": "Can you name one example of that benefit?",
+          "starter": "For example",
+          "uncertain": "I am not sure yet."
+        },
+        {
+          "question": "Which part would you keep if you changed the habit?",
+          "starter": "I would keep",
+          "uncertain": "I am not sure yet."
+        }
+      ],
+      "hints": {
+        "attention": "Think about what the screen time helps you do, and whether another activity gets displaced. Minutes alone do not show harm.",
+        "social": "Consider the intended audience, the people pictured, and any details visible in a post. You do not need to include names.",
+        "news": "Consider the original source, date, and missing context. The fictional bus claim is not verified by the guidance cards.",
+        "ai": "Consider what the tool helps with, what you verify yourself, and the rules for the task. Avoid private prompt details."
+      }
+    },
+    "change": {
+      "prompts": [
+        {
+          "question": "What is one small change you could try?",
+          "starter": "I will try to",
+          "uncertain": "I am not sure yet."
+        },
+        {
+          "question": "When or where will you try it?",
+          "starter": "I'll try this",
+          "uncertain": "I am not sure yet."
+        },
+        {
+          "question": "How could you make it manageable?",
+          "starter": "To make it manageable",
+          "uncertain": "I am not sure yet."
+        }
+      ],
+      "hints": {
+        "attention": "Think about what the screen time helps you do, and whether another activity gets displaced. Minutes alone do not show harm.",
+        "social": "Consider the intended audience, the people pictured, and any details visible in a post. You do not need to include names.",
+        "news": "Consider the original source, date, and missing context. The fictional bus claim is not verified by the guidance cards.",
+        "ai": "Consider what the tool helps with, what you verify yourself, and the rules for the task. Avoid private prompt details."
+      }
+    },
+    "check": {
+      "prompts": [
+        {
+          "question": "What would you observe or count?",
+          "starter": "I'll check",
+          "uncertain": "I am not sure yet."
+        },
+        {
+          "question": "How often, or over what period?",
+          "starter": "I'll check this",
+          "uncertain": "I am not sure yet."
+        },
+        {
+          "question": "Where could you note what happened?",
+          "starter": "I'll record it",
+          "uncertain": "I am not sure yet."
+        }
+      ],
+      "hints": {
+        "attention": "Think about what the screen time helps you do, and whether another activity gets displaced. Minutes alone do not show harm.",
+        "social": "Consider the intended audience, the people pictured, and any details visible in a post. You do not need to include names.",
+        "news": "Consider the original source, date, and missing context. The fictional bus claim is not verified by the guidance cards.",
+        "ai": "Consider what the tool helps with, what you verify yourself, and the rules for the task. Avoid private prompt details."
+      }
+    }
+  }
+}
