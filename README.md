@@ -25,6 +25,7 @@ pnpm --dir tools/qa exec playwright install chromium
 QA_BROWSER=chromium node tools/qa/reflection.mjs
 QA_BROWSER=chromium node tools/qa/guidance.mjs
 QA_BROWSER=chromium node tools/qa/site.mjs
+QA_BROWSER=chromium node tools/qa/accessibility.mjs
 ```
 
 On Windows, set `QA_BROWSER` using your shell environment syntax. Local checks otherwise use installed Chrome. The workflow uses Chromium. Playwright and axe are development tools and are excluded from the Pages package.
@@ -33,7 +34,13 @@ On Windows, set `QA_BROWSER` using your shell environment syntax. Local checks o
 
 The form and prepared helper run entirely in the browser. Reflection content never enters a URL, network request, identity state, or analytics. Unfinished helper answers remain temporary. Explicitly accepted text follows the form's opt-in saving controls.
 
-Compatible saved reflections retain `signal-and-self-reflection-v1`, since the two GitHub project sites share an origin. Theme preferences use a separate project key. No other portfolio storage is read. This shared origin is not isolation against other same-origin scripts; device drafts are for convenience and should not contain sensitive information.
+Compatible saved reflections retain `signal-and-self-reflection-v1`, since the two GitHub project sites share an origin. Theme and reading choices use separate project keys. No other portfolio storage is read. This shared origin is not isolation against other same-origin scripts; device drafts are for convenience and should not contain sensitive information.
+
+## Interface and accessibility
+
+Every page has Accessibility options for text size, text spacing, stronger contrast, and reduced motion. These viewing choices are remembered separately from opt-in reflection drafts; Reset reading options removes only the reading key. System reduced motion and forced colors are respected, and controls remain usable when browser storage is blocked.
+
+The activity provides keyboard navigation, a text label for the current step, associated field hints and errors, and Escape to close requested help. Saving does not repeat identical status announcements on every keystroke. The time comparison has an equivalent text calculation. The Resources QR has descriptive alt text and the same destination as a normal link. The static worksheet is a non-submitting form landmark, so JavaScript-disabled keyboard entries cannot enter a URL. The Accessibility page explains these controls and the paper/plain-text alternatives.
 
 ## Presentation and publishing
 

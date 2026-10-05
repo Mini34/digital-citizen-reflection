@@ -33,8 +33,13 @@
 .reflection-example summary { font-weight: 750; cursor: pointer; }
 #reflection-mode { font-weight: 750; color: var(--blue-deep); }
 #reflection-switch-confirm,#reflection-clear-confirm { padding: 16px; background: var(--paper-deep); }
+.step-current { display: block; font-size: .7rem; visibility: hidden; }
+.reflection-steps [aria-current] .step-current { visibility: visible; }
+.field-error { color: var(--ink); font-weight: 750; border-left: 4px solid var(--blue-deep); padding: 10px 14px; background: var(--paper-deep); font-size: .95rem; }
+[aria-invalid="true"] { border: 2px solid var(--blue-deep) !important; }
 @media(max-width:640px) { .reflection-sources,.reflection-time { grid-template-columns: 1fr; } .reflection-steps button { flex: 1 1 40%; } .reflection-hero h1 { font-size: 3rem; } }
 @media print {
+  html { --paper: white !important; --paper-deep: #f5f5f5 !important; --surface-solid: white !important; --ink: black !important; --ink-soft: #333 !important; --blue: #222 !important; --blue-deep: black !important; --line: #777 !important; --line-strong: #555 !important; }
   body { background: white !important; color: black !important; font-size: 10pt; }
   body::before,.site-header-wrap,.site-footer,.reflection-hero,.reflection-storage,.reflection-steps,.reflection-navigation,.reflection-examples,.js-only,#reflection-summary .button-row,.reflection-bars { display: none !important; }
   .reflection-shell { width: 100%; padding: 0; margin: 0; max-width: none; }
