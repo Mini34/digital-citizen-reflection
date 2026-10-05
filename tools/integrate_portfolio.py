@@ -17,6 +17,7 @@ def main():
     for file in (ROOT/'assets/downloads').iterdir():
         if file.is_file():copy2(file,dest/'assets/downloads'/file.name)
     helper=dest/'tools/qa/guidance.mjs';text=helper.read_text(encoding='utf8').replace("const base=process.env.SITE_URL||'http://127.0.0.1:8001/digital-citizen-reflection';", "const base=process.env.SITE_URL||'http://127.0.0.1:8000/pages/digital-citizen-reflection.html';").replace("base+'/index.html'","base")
+    text=text.replace("await page.selectOption('#theme',theme)","await page.evaluate(t=>document.documentElement.dataset.theme=t,theme)")
     helper.write_text(text,encoding='utf8',newline='\n')
     config=json.loads((dest/'reflection-site.json').read_text());config['mode']='portfolio';(dest/'reflection-site.json').write_text(json.dumps(config,indent=2)+'\n')
     subprocess.run([sys.executable,'tools/build_site.py'],cwd=dest,check=True)
