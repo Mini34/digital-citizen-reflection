@@ -1,0 +1,203 @@
+{
+  "slides": [
+    {
+      "title": "A news post worth checking",
+      "time": "0:00–1:00",
+      "seconds": 60,
+      "pause": 12,
+      "kind": "cover",
+      "lines": [
+        "\"City buses will be free next month\"",
+        "FICTIONAL EXAMPLE · CROPPED SCREENSHOT",
+        "What would you check before forwarding?"
+      ],
+      "notes": "Imagine a friend sends a cropped screenshot saying city buses will be free next month. This example is fictional. You want to help friends with transport costs, so you are tempted to forward it. What would you check first? The screenshot has no date and no original announcement. Digital Citizen Reflection helps us describe that habit, compare relevant evidence, and choose a realistic change. Today I will show the four steps, then you can reflect privately. You can use a fictional example throughout.",
+      "cue": "Pause for the opening question. Do not ask for personal disclosures."
+    },
+    {
+      "title": "Evidence and its limits",
+      "time": "1:00–2:00",
+      "seconds": 60,
+      "pause": 5,
+      "kind": "evidence",
+      "lines": [
+        "WHO survey: 11% showed signs of problematic social media use",
+        "Almost 280,000 young people, ages 11, 13 and 15. Surveyed in 2022.",
+        "UNESCO: a framework for judging information",
+        "Guidance helps us ask better questions. A specific claim still needs its own evidence."
+      ],
+      "notes": "The activity uses original sources and puts their limits beside the findings. WHO reported signs of problematic social media use in eleven percent of the young people surveyed in 2022. The study covered almost 280,000 participants aged eleven, thirteen, and fifteen across forty-four countries and regions. That gives useful population context. It cannot diagnose one person or define a safe number of minutes for everyone. UNESCO's media literacy resources offer another kind of evidence: guidance for thinking critically about information. Guidance can help us decide how to check a post, but it does not establish whether that post is true.",
+      "cue": "Point out the difference between a population finding and educational guidance.",
+      "sources": [
+        "WHO, published 25 September 2024: https://www.who.int/europe/news/item/25-09-2024-teens--screens-and-mental-health",
+        "UNESCO, Media and Information Literacy, checked 4 October 2026: https://www.unesco.org/en/media-information-literacy"
+      ]
+    },
+    {
+      "title": "The four-step framework",
+      "time": "2:00–3:00",
+      "seconds": 60,
+      "pause": 10,
+      "kind": "framework",
+      "lines": [
+        "Observe",
+        "What happens, in what context?",
+        "Evaluate",
+        "What does the evidence support?",
+        "Identify",
+        "What risk matters? What benefit stays?",
+        "Act",
+        "What will I try, check, and review?"
+      ],
+      "notes": "The same four steps work across attention, privacy, news, and AI tools. Observe means describing something you actually do, and when it happens. Evaluate means looking at a source, its date, who it covers, and its limitations. Identify means naming a risk while keeping sight of a benefit you value. Act means choosing one realistic change, a way to check what happens, and a date to review it. The page suggests a review seven days ahead, but you can change it. The aim is a useful action plan rather than a score or a judgment about the person.",
+      "cue": "Name each step slowly. Transition to the live page. Keep slides 4–7 available as the screenshot backup."
+    },
+    {
+      "title": "Observe: the news-sharing habit",
+      "time": "3:00–4:00",
+      "seconds": 60,
+      "pause": 14,
+      "kind": "demo",
+      "image": "observe.png",
+      "lines": [
+        "Fictional example",
+        "A cropped bus-news screenshot has no date or original announcement.",
+        "Help me answer offers smaller prompts when requested."
+      ],
+      "notes": "Our fictional post has no date or original link. We can describe that without calling it true or false. In Observe, I select News and information and load the fictional example. If the question about what I notice feels difficult, Help me answer offers smaller prompts. For example: what changes, if anything, afterward? I can skip, say I am not sure, or report no change. A draft uses only the words I supply; I review it before using it.",
+      "cue": "Live: load the news example. Open Help me answer beside What do you notice afterward, show its first prompt, then close it. Keep the fictional answer. Backup: show the requested-help excerpt."
+    },
+    {
+      "title": "Evaluate: what supports the claim?",
+      "time": "4:00–5:00",
+      "seconds": 60,
+      "pause": 18,
+      "kind": "demo",
+      "image": "evaluate.png",
+      "lines": [
+        "An original source and a date",
+        "Media literacy guidance helps us look for missing context.",
+        "Neither card verifies this fictional bus claim."
+      ],
+      "notes": "In Evaluate, the relevant sources help me think about checking information. I can see the publisher and date, then open the population and limitation section. UNESCO's guidance asks me to engage critically with information. It does not verify our fictional transport claim. I would still need a dated announcement from the transit agency, with the details and conditions. This is why comparing a finding with its limits matters. A trustworthy source can guide a process without answering every question about a particular post.",
+      "cue": "Live: choose Next step. Expand Who it covers & what it cannot tell us on the UNESCO literacy card. Read the evidence response. Backup: point to the expanded source card in the screenshot.",
+      "sources": [
+        "UNESCO: https://www.unesco.org/en/media-information-literacy",
+        "UNESCO generative AI guidance: https://www.unesco.org/en/articles/guidance-generative-ai-education-and-research"
+      ]
+    },
+    {
+      "title": "Identify: the risk and the benefit",
+      "time": "5:00–6:00",
+      "seconds": 60,
+      "pause": 20,
+      "kind": "demo",
+      "image": "identify.png",
+      "lines": [
+        "Risk",
+        "Sharing a claim without evidence",
+        "Benefit to preserve",
+        "Helping friends find useful transport information"
+      ],
+      "notes": "Now I identify the risk: passing along a claim before I have evidence for it. That can mislead people making plans. The benefit is still worth keeping. I want to help friends find useful transport information. Naming both makes the change more realistic. I do not have to stop sharing news to improve how I share it. The form lets participants select a risk or describe their own, and it asks them to write the benefit they want to preserve.",
+      "cue": "Live: choose Next step. Point to the selected risk and benefit. Backup: read those two fields from this slide."
+    },
+    {
+      "title": "Act: a change we can check",
+      "time": "6:00–7:00",
+      "seconds": 60,
+      "pause": 16,
+      "kind": "demo",
+      "image": "action-plan.png",
+      "lines": [
+        "Find a dated transit-agency announcement before forwarding.",
+        "For the next three posts, record whether an original source was available.",
+        "Review in seven days."
+      ],
+      "notes": "The change is specific: find a dated transit-agency announcement before forwarding the claim. If I cannot verify it, I will say that clearly. The check is also specific: for the next three news posts I consider sharing, note whether I found an original source. I can review that in seven days. The summary stays editable. I can download a text copy or print it. Answers remain temporary unless I enable Save on this device. Saving uses this browser only, so a shared device needs care. Clear reflection removes the draft and the current answers.",
+      "cue": "Live: choose Act, point to change/check/date, then Build my action plan. Download the text once, then return to the summary. Keep Save on this device unchecked. Backup: show the finished-plan excerpt and describe edit, download and print."
+    },
+    {
+      "title": "Your two-minute reflection",
+      "time": "7:00–9:00",
+      "seconds": 120,
+      "pause": 90,
+      "kind": "audience",
+      "lines": [
+        "Choose one habit or a fictional example",
+        "Attention / Social privacy / News / AI tools",
+        "Use the page, paper, or your own notes",
+        "What risk matters? What benefit stays?",
+        "What change could you try and check?"
+      ],
+      "notes": "Take two minutes for your own reflection. Use the page, the worksheet, or your own notes. Pick one habit or a fictional example. Keep names and private details out. Name a risk and a benefit to preserve. Choose one small change and a check you can observe. You can keep this private and finish later.",
+      "cue": "Point to the QR and printed address. Use up to 30 seconds for instructions, then allow 90 seconds privately. At 8:45 give a fifteen-second notice. Offer the paper worksheet if phones or Wi-Fi are unavailable."
+    },
+    {
+      "title": "Development lessons",
+      "time": "9:00–9:25",
+      "seconds": 25,
+      "pause": 2,
+      "kind": "lessons",
+      "lines": [
+        "Source limits belong beside findings",
+        "Saving private answers needs a choice",
+        "Prepared prompts keep the participant in control"
+      ],
+      "notes": "Building the activity made source limits and privacy choices concrete. The helper waits for an invitation and leaves the participant in control. Testing also covered going back, recovering drafts, keyboard use, and blocked storage.",
+      "cue": "Describe the demonstrated source, privacy, and helper decisions. Keep the talk within the checkpoint."
+    },
+    {
+      "title": "One change, then a review",
+      "time": "9:25–10:00",
+      "seconds": 35,
+      "pause": 5,
+      "kind": "takeaway",
+      "lines": [
+        "Observe. Evaluate. Identify. Act.",
+        "Keep the benefit. Try the change.",
+        "Review what actually happened.",
+        "mini34.github.io/digital-citizen-reflection/"
+      ],
+      "notes": "The takeaway is a process you can repeat: observe, evaluate, identify, and act. Keep the benefit you value, try one realistic change, and review what actually happened. The worksheet has the same four steps. Scan the QR or use the address for the activity and resources. The presentation link will keep working when the activity returns to the portfolio. Thank you.",
+      "cue": "Show the worksheet and QR. End by 10:00. Do not imply an automatic retirement date."
+    }
+  ],
+  "backup": [
+    {
+      "time": "0:00–0:45",
+      "seconds": 45,
+      "pause": 4,
+      "title": "Problem and purpose",
+      "text": "Imagine a cropped screenshot claiming city buses will be free next month. This example is fictional. Would you forward it? What would you check first? Digital Citizen Reflection helps you examine one online habit and choose a small change you can check. Use a fictional example or your own observation; your answers can remain private. The process also works for attention, privacy, and AI tools."
+    },
+    {
+      "time": "0:45–1:30",
+      "seconds": 45,
+      "pause": 5,
+      "title": "Evidence and framework",
+      "text": "The four steps are Observe, Evaluate, Identify, and Act. In Evaluate, compare the source and date with the population and limitations. A WHO survey offers population context about adolescent social media use, but it cannot diagnose an individual or set a universal safe number of minutes. UNESCO's literacy guidance helps us think critically about information, but a particular claim still needs its own evidence. The last step is one change, one observable check, and a review date."
+    },
+    {
+      "time": "1:30–3:30",
+      "seconds": 120,
+      "pause": 25,
+      "title": "Screenshot demonstration",
+      "text": "Our fictional example is a cropped post claiming city buses will be free next month. Observe: the screenshot has no date or original link. Evaluate: UNESCO's guidance helps us ask for the source and context, but neither evidence card verifies this fictional claim. We would need a dated transit-agency announcement. Identify: the risk is sharing an unsupported claim. The benefit we want to keep is helping friends find useful transport information. Act: check for a dated announcement before forwarding. If we cannot verify the claim, say that clearly. For the next three posts, note whether an original source was available, then review in seven days. The page creates an editable summary that you can download or print. It keeps answers temporary by default. Save on this device is optional and uses this browser only. These screenshots show the same example if the live page is unavailable. If writing feels difficult, optional prepared prompts break a question into smaller parts. They use your words and let you skip or say you are unsure. They do not verify the claim."
+    },
+    {
+      "time": "3:30–4:30",
+      "seconds": 60,
+      "pause": 44,
+      "title": "Audience reflection",
+      "text": "Take one minute to choose a habit or example. Name the risk, the benefit to keep, and one change. How would you check it? Use the worksheet or your own notes. Keep this private."
+    },
+    {
+      "time": "4:30–5:00",
+      "seconds": 30,
+      "pause": 5,
+      "title": "Takeaway",
+      "text": "Keep the benefit, try the change, and review what actually happened. The four steps give you a process you can use again. The worksheet matches the page. The QR and printed address lead to the dedicated activity and resources, and will keep working after the activity returns to the portfolio. Thank you."
+    }
+  ]
+}

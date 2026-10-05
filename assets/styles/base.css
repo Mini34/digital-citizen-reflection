@@ -1,0 +1,78 @@
+:root {
+  --paper: #f4f0e8;
+  --paper-deep: #e9e2d5;
+  --surface: rgba(255, 253, 248, 0.82);
+  --surface-solid: #fffdf8;
+  --ink: #101828;
+  --ink-soft: #475467;
+  --line: rgba(16, 24, 40, 0.15);
+  --line-strong: rgba(16, 24, 40, 0.3);
+  --blue: #3155e7;
+  --blue-deep: #1f3dbf;
+  --coral: #ff6b57;
+  --lime: #d8f95f;
+  --sky: #bce2ff;
+  --dark-canvas: #101828;
+  --on-dark: #f8f9ff;
+  --on-dark-muted: #cbd4ea;
+  --on-blue: #ffffff;
+  --on-blue-muted: rgba(255, 255, 255, 0.8);
+  --on-accent: #101828;
+  --on-coral: #101828;
+  --positive: #267653;
+  --planned: #96542c;
+  --shadow: 0 24px 80px rgba(28, 35, 58, 0.12);
+  --shadow-small: 0 10px 30px rgba(28, 35, 58, 0.09);
+  --radius-xl: 36px;
+  --radius-lg: 24px;
+  --radius-md: 16px;
+  --radius-sm: 10px;
+  --max: 1280px;
+  --font-body: "Manrope", "Segoe UI", sans-serif;
+  --font-display: "Newsreader", Georgia, serif;
+  --font-mono: "DM Mono", Consolas, monospace;
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+[data-theme="midnight"] {
+  --paper: #0b1020;
+  --paper-deep: #11182c;
+  --surface: rgba(19, 28, 49, 0.84);
+  --surface-solid: #131c31;
+  --ink: #f4f7ff;
+  --ink-soft: #b8c1d9;
+  --line: rgba(222, 231, 255, 0.16);
+  --line-strong: rgba(222, 231, 255, 0.34);
+  --blue: #7892ff;
+  --blue-deep: #a8b8ff;
+  --coral: #ff8878;
+  --lime: #d8f95f;
+  --sky: #24476e;
+  --dark-canvas: #060a14;
+  --on-blue: #0b1020;
+  --on-blue-muted: rgba(11, 16, 32, 0.76);
+  --positive: #82d9b2;
+  --planned: #ffc08f;
+  --shadow: 0 24px 80px rgba(0, 0, 0, 0.38);
+  --shadow-small: 0 10px 30px rgba(0, 0, 0, 0.28);
+}
+
+[data-theme="quiet"] {
+  --paper: #efeee9;
+  --paper-deep: #dfddd5;
+  --surface: rgba(249, 248, 244, 0.9);
+  --surface-solid: #f9f8f4;
+  --ink: #242923;
+  --ink-soft: #5f665f;
+  --line: rgba(36, 41, 35, 0.15);
+  --line-strong: rgba(36, 41, 35, 0.3);
+  --blue: #4f6758;
+  --blue-deep: #34473b;
+  --coral: #c58f82;
+  --lime: #ced9b8;
+  --sky: #d6dfd7;
+  --dark-canvas: #1d2520;
+  --positive: #356b4f;
+  --planned: #8b5a37;
+}
+
