@@ -72,6 +72,7 @@
     const on=(selector,fn)=>node.querySelector(selector).addEventListener('click',fn);
     g.open.addEventListener('click',()=>g.panel.hidden?open(g):close(g,true));
     on('[data-help-close]',()=>close(g,true));on('[data-help-accept]',()=>open(g));
+    g.panel.addEventListener('keydown',event=>{if(event.key==='Escape'){event.preventDefault();close(g,true);}});
     on('[data-help-dismiss]',()=>{stopped=true;groups.forEach(x=>x.offer.hidden=true);g.open.focus();});
     on('[data-help-next]',()=>advance(g,g.input.value.trim()?(g.answers[g.index]?.text===g.input.value.trim()?g.answers[g.index]:{text:g.input.value.trim(),literal:false}):null));
     on('[data-help-uncertain]',()=>advance(g,{text:g.config.prompts[g.index].uncertain,literal:true}));

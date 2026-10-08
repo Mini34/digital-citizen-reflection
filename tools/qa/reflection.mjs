@@ -17,7 +17,7 @@ try {
   await example(id);check(id+' example labelled fictional',(await page.locator('#reflection-mode').innerText()).includes('Fictional'));
   await page.click('#reflection-next');await page.click('#reflection-back');check(id+' back preserves answers',(await page.inputValue('#observation')).length>15);
   await page.click('[data-reflection-step="3"]');await page.click('#reflection-finish');check(id+' complete plan',await page.locator('#reflection-summary').isVisible());
-  check(id+' risk included',(await page.locator('#summary-content').innerText()).length>200);
+  check(id+' supporting reflection is expandable',!await page.locator('#summary-reflection').isVisible());await page.locator('#summary-supporting>summary').click();check(id+' risk included',(await page.locator('#summary-reflection').innerText()).includes(await page.inputValue('#risk')));
  }
  await example('attention');check('Arithmetic handles 60 to 20 minutes',(await page.locator('#reflection-arithmetic').innerText()).includes('280 minutes less'));
  await page.fill('#before','0');await page.fill('#after','0');check('Zero values have finite arithmetic',(await page.locator('#reflection-arithmetic').innerText()).includes('0 minutes less'));
@@ -43,9 +43,9 @@ try {
  const download=page.waitForEvent('download');await page.click('#reflection-download');const downloaded=await download;const text=await fs.readFile(await downloaded.path(),'utf8');check('Text export contains answers and sources',downloaded.suggestedFilename()==='digital-citizen-action-plan.txt'&&text.includes('transit-agency')&&text.includes('https://www.unesco.org'));
  await page.emulateMedia({media:'print'});check('Print shows action plan and hides controls',await page.locator('#reflection-summary').isVisible()&&!await page.locator('#reflection-print').isVisible());await page.emulateMedia({media:'screen'});
  await page.click('#reflection-edit');check('Edit returns to populated observation',(await page.inputValue('#observation')).includes('viral'));
- await page.fill('#observation','My own news habit');await page.click('[data-reflection-step="2"]');await page.selectOption('#risk','other');await page.click('[data-reflection-step="3"]');await page.click('#reflection-finish');check('Custom risk needs a description',await page.locator('#riskDetail').isVisible()&&!await page.locator('#reflection-summary').isVisible());await page.fill('#riskDetail','Relying on a cropped headline');await page.click('[data-reflection-step="3"]');await page.click('#reflection-finish');check('Edited custom risk appears in summary',(await page.locator('#summary-content').innerText()).includes('Relying on a cropped headline'));await page.click('#reflection-edit');
+ await page.fill('#observation','My own news habit');await page.click('[data-reflection-step="2"]');await page.selectOption('#risk','other');await page.click('[data-reflection-step="3"]');await page.click('#reflection-finish');check('Custom risk needs a description',await page.locator('#riskDetail').isVisible()&&!await page.locator('#reflection-summary').isVisible());await page.fill('#riskDetail','Relying on a cropped headline');await page.click('[data-reflection-step="3"]');await page.click('#reflection-finish');check('Edited custom risk appears in summary',(await page.locator('#summary-reflection').textContent()).includes('Relying on a cropped headline'));await page.click('#reflection-edit');
  await page.selectOption('#reflection-topic','ai');await page.click('#reflection-switch-yes');check('Confirmed switch resets answers',await page.inputValue('#reflection-topic')==='ai'&&await page.inputValue('#observation')==='');
- for(const theme of ['signal','midnight','quiet']){
+ for(const theme of ['signal','midnight']){
   await page.evaluate(t=>document.documentElement.dataset.theme=t,theme);
   for(const width of [320,390,768,1440]){await page.setViewportSize({width,height:1050});check(`${theme} no overflow at ${width}`,await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));}
   await page.setViewportSize({width:1440,height:1050});

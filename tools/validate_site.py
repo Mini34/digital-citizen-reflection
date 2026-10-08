@@ -9,11 +9,12 @@ FIELDS={'observation','context','notice','evidenceResponse','riskDetail','benefi
 TOPICS={'attention','social','news','ai'}
 class Page(HTMLParser):
     def __init__(self):
-        super().__init__(); self.ids=[]; self.refs=[]; self.labels=[]; self.canonical=[]; self.h1=0
+        super().__init__(); self.ids=[]; self.refs=[]; self.labels=[]; self.canonical=[]; self.h1=0; self.images=[]
     def handle_starttag(self,tag,attrs):
         a=dict(attrs)
         if a.get('id'):self.ids.append(a['id'])
         if tag=='h1':self.h1+=1
+        if tag=='img':self.images.append(a)
         if tag=='label' and a.get('for'):self.labels.append(a['for'])
         if tag=='link' and a.get('rel')=='canonical':self.canonical.append(a.get('href'))
         for key in ('href','src'):
@@ -47,6 +48,8 @@ def main():
         if not name.endswith('.html'):continue
         parser=Page();parser.feed(expected);parsers[name]=parser
         if parser.h1!=1 or len(parser.ids)!=len(set(parser.ids)):errors.append('Heading or duplicate ID: '+name)
+        for image in parser.images:
+            if 'alt' not in image or (image['alt'].strip()=='' and image.get('role')!='presentation'):errors.append('Missing image alternative: '+name)
         canonical=config['returnUrl'] if config['mode']=='retired' else config['url']+('' if name=='index.html' else name)
         if parser.canonical!=[canonical]:errors.append('Wrong canonical: '+name)
         for label in parser.labels:

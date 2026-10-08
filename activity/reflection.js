@@ -23,7 +23,46 @@
     if (s.reviewDate && (!/^\d{4}-\d{2}-\d{2}$/.test(s.reviewDate) || new Date(s.reviewDate+'T12:00:00Z').toISOString().slice(0,10)!==s.reviewDate)) return false;
     return true;
   }
-  const status = message => { $('#reflection-storage-status').textContent=message; };
+  const status = message => { const node=$('#reflection-storage-status'); if(node.textContent!==message)node.textContent=message; };
+  // Validate only reflection fields; unfinished helper text stays independent.
+  fields.forEach(id=>{
+    const control=$('#'+id), error=document.createElement('p');
+    error.id=id+'-error';error.className='field-error';error.hidden=true;
+    control.insertAdjacentElement('afterend',error);
+    control.setAttribute('aria-describedby',[(control.getAttribute('aria-describedby')||''),error.id].filter(Boolean).join(' '));
+  });
+  function errorMessage(control) {
+    if(control.required&&!control.value.trim()) {
+      if(control.tagName==='TEXTAREA')return 'Add a short answer, use Help me answer, or write “I’m not sure yet.”';
+      if(control.type==='date')return 'Choose a date to review your change.';
+      return 'Choose an option before building your plan.';
+    }
+    if(!control.checkValidity())return control.type==='number'?'Enter a whole number from 0 to 1,440 minutes.':'Check this value before building your plan.';
+    return '';
+  }
+  function updateErrorSummary() {
+    const invalid=fields.map(id=>$('#'+id)).find(control=>control.getAttribute('aria-invalid')==='true'&&errorMessage(control));
+    const summary=$('#reflection-error-summary');
+    summary.hidden=!invalid;
+    if(invalid) {
+      const section=invalid.closest('.reflection-step');
+      const message='There’s an answer to check in step '+(Number(section.dataset.step)+1)+'. '+errorMessage(invalid);
+      if(summary.textContent!==message)summary.textContent=message;
+    }
+  }
+  function clearError(control) {
+    if(!errorMessage(control)) {
+      $('#'+control.id+'-error').hidden=true;control.removeAttribute('aria-invalid');
+    }
+    updateErrorSummary();
+  }
+  function updateRisk() {
+    const custom=$('#risk').value==='other';$('#riskDetail').required=custom;
+    $('label[for="riskDetail"] [data-field-label]').textContent=custom?'Describe your risk':'Describe the risk';
+    $('label[for="riskDetail"] [data-field-requirement]').textContent=custom?'Required':'Optional';
+    $('[data-guidance-id="riskDetail"] .guidance-open .visually-hidden').textContent=custom?': Describe your risk':': Describe the risk (optional)';
+    clearError($('#riskDetail'));
+  }
   function persist() {
     if (!saving) return;
     try { localStorage.setItem(key,JSON.stringify(state())); status('Draft saved on this device. No answers are sent to the site.'); }
@@ -40,7 +79,7 @@
     const a=$('#before'), b=$('#after'), ready=a.value!==''&&b.value!==''&&a.checkValidity()&&b.checkValidity();
     let text='Enter both values to compare them. These are arithmetic estimates, not health recommendations.';
     if (ready) { const diff=Number(a.value)-Number(b.value); text=`Current: ${a.value} min/day. Planned: ${b.value} min/day. ${Math.abs(diff)} minutes ${diff>=0?'less':'more'} per day; ${Math.abs(diff*7)} minutes ${diff>=0?'less':'more'} over seven days if repeated daily. Arithmetic estimate, not a measured outcome or health recommendation.`; }
-    $('#reflection-arithmetic').textContent=text;
+    if($('#reflection-arithmetic').textContent!==text)$('#reflection-arithmetic').textContent=text;
     const max=Math.max(Number(a.value)||0,Number(b.value)||0,1);
     $('#before-bar').style.width=ready?`${Number(a.value)/max*100}%`:'0%'; $('#after-bar').style.width=ready?`${Number(b.value)/max*100}%`:'0%';
   }
@@ -57,21 +96,25 @@
   function loadNew(id, example) {
     window.DCRGuidance?.reset();
     activeTopic=id; mode=example?'example':'own'; renderTopic();
-    fields.forEach(f=>$('#'+f).value=example?(topic().example[f]||''):''); $('#reviewDate').value=dateAhead();
+    fields.forEach(f=>{$('#'+f).value=example?(topic().example[f]||''):'';$('#'+f+'-error').hidden=true;$('#'+f).removeAttribute('aria-invalid');}); $('#reviewDate').value=dateAhead();updateRisk();$('#reflection-error-summary').hidden=true;
     renderMode(); arithmetic(); navigate(0); persist();
   }
   function requestSwitch(id, example) {
     $('#reflection-topic').value=activeTopic;
     if (!hasAnswers()) { loadNew(id,example); return; }
-    pending={id,example}; $('#reflection-switch-confirm').hidden=false; $('#reflection-switch-yes').focus();
+    navigate(0,false);pending={id,example}; $('#reflection-switch-confirm').hidden=false; $('#reflection-switch-yes').focus();
   }
   function complete() {
     for (let i=0;i<4;i++) {
       const section=$(`.reflection-step[data-step="${i}"]`);
       $('#risk').required=true;
-      $('#riskDetail').required=$('#risk').value==='other';
-      const invalid=[...section.querySelectorAll('input,textarea,select')].find(el=>!el.checkValidity());
-      if (invalid) { navigate(i,false); invalid.reportValidity(); invalid.focus(); if(invalid.value.trim()==='') document.dispatchEvent(new CustomEvent('dcr:validation-missing',{detail:{id:invalid.id}})); return; }
+      updateRisk();
+      const invalid=fields.map(id=>$('#'+id)).find(el=>section.contains(el)&&errorMessage(el));
+      if (invalid) {
+        navigate(i,false);const error=$('#'+invalid.id+'-error');error.textContent=errorMessage(invalid);error.hidden=false;invalid.setAttribute('aria-invalid','true');
+        updateErrorSummary();
+        invalid.focus();if(invalid.value.trim()==='')document.dispatchEvent(new CustomEvent('dcr:validation-missing',{detail:{id:invalid.id}}));return;
+      }
     }
     showSummary();
   }
@@ -80,8 +123,9 @@
   }
   function showSummary() {
     $('#summary-mode').textContent=mode==='example'?'Fictional example action plan · edited examples remain fictional':'Personal action plan · kept in this browser';
-    $('#summary-content').replaceChildren();
-    for(const [label,value] of summaryRows()) {const dt=document.createElement('dt'),dd=document.createElement('dd');dt.textContent=label;dd.textContent=value;$('#summary-content').append(dt,dd);}
+    $('#summary-content').replaceChildren();$('#summary-reflection').replaceChildren();$('#summary-supporting').open=false;
+    const rows=summaryRows(), priorities=['Change to try','Check progress','Review date'];
+    for(const [label,value] of [...priorities.map(label=>rows.find(row=>row[0]===label)),...rows.filter(row=>!priorities.includes(row[0]))]) {const dt=document.createElement('dt'),dd=document.createElement('dd');dt.textContent=label;dd.textContent=value;(priorities.includes(label)?$('#summary-content'):$('#summary-reflection')).append(dt,dd);}
     form.hidden=true; $('#reflection-summary').hidden=false; $('#summary-title').focus(); persist();
   }
   function clear() {
@@ -89,11 +133,13 @@
     saving=false; stored=null; $('#reflection-save').checked=false; $('#reflection-resume').hidden=true; $('#reflection-clear-confirm').hidden=true;
     loadNew(activeTopic,false); status(removed?'Reflection cleared. Nothing is saved.':'Answers cleared from this page. Browser storage could not be cleared; use browser settings to remove any saved draft.'); $('#reflection-clear').focus();
   }
-  form.addEventListener('submit',event=>event.preventDefault());
-  form.addEventListener('input',event=>{if(fields.includes(event.target.id)){arithmetic();persist();}});
+  form.addEventListener('input',event=>{if(fields.includes(event.target.id)){clearError(event.target);if(event.target.id==='risk')updateRisk();arithmetic();persist();}});
+  $('#risk').addEventListener('change',()=>{updateRisk();clearError($('#risk'));});
   $('#reflection-topic').addEventListener('change',event=>requestSwitch(event.target.value,false));
   $('#reflection-example').addEventListener('click',()=>requestSwitch(activeTopic,true));
   $('#reflection-own').addEventListener('click',()=>requestSwitch(activeTopic,false));
+  $('#reflection-start-own').addEventListener('click',event=>{event.preventDefault();if(mode==='own')navigate(step);else requestSwitch(activeTopic,false);});
+  $('#reflection-start-example').addEventListener('click',event=>{event.preventDefault();requestSwitch('news',true);});
   $('#reflection-switch-yes').addEventListener('click',()=>{const change=pending;pending=null;$('#reflection-switch-confirm').hidden=true;if(change)loadNew(change.id,change.example);});
   $('#reflection-switch-no').addEventListener('click',()=>{pending=null;$('#reflection-switch-confirm').hidden=true;$('#reflection-topic').focus();});
   $('#reflection-next').addEventListener('click',()=>navigate(Math.min(step+1,3)));
@@ -107,12 +153,15 @@
   });
   $('#reflection-clear').addEventListener('click',()=>{$('#reflection-clear-confirm').hidden=false;$('#reflection-clear-yes').focus();});
   $('#reflection-clear-yes').addEventListener('click',clear); $('#reflection-clear-no').addEventListener('click',()=>{$('#reflection-clear-confirm').hidden=true;$('#reflection-clear').focus();});
-  $('#reflection-resume-button').addEventListener('click',()=>{if(!stored)return;activeTopic=stored.topic;mode=stored.mode;renderTopic();fields.forEach(f=>$('#'+f).value=stored[f]);renderMode();arithmetic();saving=true;$('#reflection-save').checked=true;$('#reflection-resume').hidden=true;navigate(stored.step);});
+  $('#reflection-resume-button').addEventListener('click',()=>{if(!stored)return;activeTopic=stored.topic;mode=stored.mode;renderTopic();fields.forEach(f=>$('#'+f).value=stored[f]);updateRisk();fields.forEach(f=>clearError($('#'+f)));renderMode();arithmetic();saving=true;$('#reflection-save').checked=true;$('#reflection-resume').hidden=true;navigate(stored.step);});
   $('#reflection-download').addEventListener('click',()=>{
     const text=['Digital Citizen Reflection', $('#summary-mode').textContent,'',...summaryRows().map(([k,v])=>`${k}\n${v}\n`),'Sources',...data.sources.filter(s=>s.topics.includes(activeTopic)).map(s=>`${s.publisher}: ${s.url}`)].join('\n');
     const blob=new Blob([text],{type:'text/plain;charset=utf-8'}), url=URL.createObjectURL(blob), a=document.createElement('a');a.href=url;a.download='digital-citizen-action-plan.txt';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
   });
   $('#reflection-print').addEventListener('click',()=>window.print());
+  let printDisclosures=[];
+  window.addEventListener('beforeprint',()=>{printDisclosures=[$('#summary-supporting'),...$$('.reflection-source details')].map(node=>({node,open:node.open}));printDisclosures.forEach(({node})=>node.open=true);});
+  window.addEventListener('afterprint',()=>{printDisclosures.forEach(({node,open})=>node.open=open);printDisclosures=[];});
   renderTopic(); $('#reviewDate').value=dateAhead();renderMode();arithmetic();navigate(0,false);$('.reflection-nojs').hidden=true;
   try { const raw=localStorage.getItem(key);if(raw){try{const s=JSON.parse(raw);if(!valid(s))throw Error('Invalid draft');stored=s;$('#reflection-resume').hidden=false;status('Saved draft found. Choose Resume to open it.');}catch{localStorage.removeItem(key);status('The saved draft could not be read and was removed. Start a new reflection.');}}}catch{status('Browser storage is unavailable. Continue temporarily or download your action plan.');}
 })();
