@@ -15,6 +15,8 @@ try{
  check('Light is the default',await page.inputValue('#theme')==='signal');
  check('Removed introduction statement is absent',!(await page.locator('.reflection-intro').innerText()).includes('No sign-in needed. Your answers stay in this browser.'));
  check('Required fields are explained up front',await page.locator('.required-explanation').count()===1);
+ const privateControls=page.locator('#reflection-form textarea,#reflection-form input,#reflection-form select,#reflection-save');
+ check('All private reflection and helper controls suppress autocomplete',await privateControls.count()===30&&await privateControls.evaluateAll(controls=>controls.every(control=>control.autocomplete==='off')));
  for(const id of ['observation','context','notice','evidenceResponse','benefit','change','check'])check(id+' visible required marker',(await page.locator(`label[for="${id}"]`).textContent()).includes('Required')&&await page.locator('#'+id).getAttribute('required')!==null);
  check('Custom risk is initially optional',await page.locator('#riskDetail').getAttribute('required')===null&&(await page.locator('label[for="riskDetail"]').textContent()).includes('Optional'));
  await page.fill('#observation','REFINEMENT_PRIVATE_5872');await page.click('[data-reflection-step="2"]');await page.click('#reflection-start-own');
@@ -23,6 +25,26 @@ try{
  check('Cancelled example entry keeps personal work',await page.inputValue('#observation')==='REFINEMENT_PRIVATE_5872'&&await page.inputValue('#reflection-topic')==='attention');
  await page.click('#reflection-start-example');await page.click('#reflection-switch-yes');
  check('Example entry opens fictional news',await page.inputValue('#reflection-topic')==='news'&&(await page.locator('#reflection-mode').innerText()).includes('Fictional')&&(await page.inputValue('#observation')).includes('buses'));
+ await page.fill('#context','');await page.click('[data-reflection-step="3"]');await page.click('#reflection-finish');
+ check('Incomplete reflection gives an error summary',await page.locator('#reflection-error-summary').isVisible()&&await page.locator('#context').getAttribute('aria-invalid')==='true');
+ await page.fill('#observation','Fictional news observation, edited.');
+ check('Editing an unrelated answer keeps the error summary visible',await page.locator('#reflection-error-summary').isVisible());
+ await page.click('[data-reflection-step="2"]');await page.fill('#benefit','Fictional benefit: helping friends find accurate information.');
+ check('Summary persists while the invalid field is on another step',await page.locator('#reflection-error-summary').isVisible()&&!await page.locator('#context').isVisible()&&(await page.locator('#reflection-error-summary').innerText()).includes('step 1'));
+ await page.selectOption('#risk','other');await page.selectOption('#risk','Sharing a claim without evidence');
+ check('Changing risk requirements does not hide an unrelated error',await page.locator('#reflection-error-summary').isVisible());
+ await page.click('[data-reflection-step="0"]');await page.fill('#context','Fictional context: a cropped screenshot in a group chat.');
+ check('Correcting the affected answer clears its error and summary',!await page.locator('#reflection-error-summary').isVisible()&&await page.locator('#context').getAttribute('aria-invalid')===null);
+ await page.click('[data-reflection-step="2"]');await page.selectOption('#risk','other');await page.fill('#riskDetail','');await page.click('[data-reflection-step="3"]');await page.click('#reflection-finish');
+ check('Missing custom risk is reported',await page.locator('#riskDetail').getAttribute('aria-invalid')==='true'&&await page.locator('#reflection-error-summary').isVisible());
+ await page.click('[data-reflection-step="0"]');await page.fill('#context','');await page.click('[data-reflection-step="3"]');await page.click('#reflection-finish');
+ check('Summary points to the first of multiple unresolved errors',(await page.locator('#reflection-error-summary').innerText()).includes('step 1')&&await page.locator('#riskDetail').getAttribute('aria-invalid')==='true');
+ await page.fill('#context','Fictional context: a cropped screenshot in a group chat.');
+ check('Correcting one error retains the other step warning',await page.locator('#reflection-error-summary').isVisible()&&(await page.locator('#reflection-error-summary').innerText()).includes('step 3'));
+ await page.click('[data-reflection-step="2"]');
+ await page.selectOption('#risk','Sharing a claim without evidence');
+ check('Making custom risk optional clears its resolved error',await page.locator('#riskDetail').getAttribute('aria-invalid')===null&&!await page.locator('#reflection-error-summary').isVisible());
+ await page.click('[data-reflection-step="0"]');await page.click('#reflection-example');await page.click('#reflection-switch-yes');
  await page.click('[data-reflection-step="1"]');
  for(const card of await page.locator('.reflection-source:visible').all()){
   check('Finding and limit are both immediately visible',await card.getByText('What this source supports',{exact:true}).isVisible()&&await card.getByText('What it cannot tell us',{exact:true}).isVisible());
@@ -50,6 +72,12 @@ try{
   const c=await browser.newContext();await c.addInitScript(v=>localStorage.setItem('digital-citizen-reflection-theme',v),stored);const p=await c.newPage();await p.goto(base+'/');check('Compatible appearance fallback for '+stored,await p.inputValue('#theme')===(stored==='midnight'?'midnight':'signal'));await c.close();
  }
  const blocked=await browser.newContext();await blocked.addInitScript(()=>Object.defineProperty(window,'localStorage',{get(){throw Error('blocked');}}));const bp=await blocked.newPage();await bp.goto(base+'/');await bp.selectOption('#theme','midnight');check('Dark remains usable with blocked storage',await bp.evaluate(()=>document.documentElement.dataset.theme==='midnight'));await blocked.close();
+ const resumeContext=await browser.newContext(),rp=await resumeContext.newPage();rp.on('request',r=>requests.push(r.url()+' '+(r.postData()||'')));rp.on('pageerror',e=>errors.push(e.message));await rp.goto(base+'/');await rp.fill('#observation','REFINEMENT_PRIVATE_5872');await rp.locator('[data-guidance-id="observation"] .guidance-open').click();await rp.fill('#helper-observation-answer','UNFINISHED_PRIVATE_5872');await rp.reload();
+ check('Reload does not restore unsaved reflection or helper responses',await rp.inputValue('#observation')===''&&await rp.inputValue('#helper-observation-answer')===''&&!await rp.locator('#reflection-resume').isVisible());
+ await rp.fill('#observation','REFINEMENT_PRIVATE_5872');await rp.check('#reflection-save');await rp.reload();
+ check('Saved answers stay closed until explicit resume',await rp.locator('#reflection-resume').isVisible()&&await rp.inputValue('#observation')===''&&!await rp.isChecked('#reflection-save'));
+ await rp.click('#reflection-resume-button');check('Explicit resume still restores opted-in answers',await rp.inputValue('#observation')==='REFINEMENT_PRIVATE_5872'&&await rp.isChecked('#reflection-save'));await rp.uncheck('#reflection-save');await rp.reload();
+ check('Disabling saving removes the resume draft',!await rp.locator('#reflection-resume').isVisible()&&await rp.inputValue('#observation')==='');await resumeContext.close();
  const nojs=await browser.newContext({javaScriptEnabled:false});const np=await nojs.newPage();await np.goto(base+'/');check('No-JS entry links lead to worksheet and examples',await np.locator('#reflection-start-own').getAttribute('href')==='#reflection-activity'&&await np.locator('#reflection-start-example').getAttribute('href')==='#examples-title');await np.emulateMedia({media:'print'});check('No-JS source dates and populations print',await np.locator('.reflection-source details p:visible').count()===8);await nojs.close();
- check('Private work absent from requests',!requests.some(r=>r.includes('REFINEMENT_PRIVATE_5872')));check('No script errors',errors.length===0);
+ check('Private work absent from requests',!requests.some(r=>r.includes('REFINEMENT_PRIVATE_5872')||r.includes('UNFINISHED_PRIVATE_5872')));check('No script errors',errors.length===0);
 }finally{await fs.mkdir(new URL('../../.build/qa/',import.meta.url),{recursive:true});await fs.writeFile(new URL('../../.build/qa/refinement-checks.json',import.meta.url),JSON.stringify({checks,errors},null,2));console.log(JSON.stringify({passed:checks.length,errors}));await browser.close();}

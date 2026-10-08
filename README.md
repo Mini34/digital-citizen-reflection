@@ -15,7 +15,7 @@ Open http://127.0.0.1:8001/digital-citizen-reflection/. The server also supports
 
 ## Authoring and checks
 
-`activity/` is the portable activity package: structured evidence and fictional examples, HTML renderer, browser logic, prepared guidance, and helper styles. `assets/styles/` retains the portfolio fonts, palette, and three themes. Update source files and regenerate committed HTML with `python tools/build_site.py`; `--check` rejects drift.
+`activity/` is the portable activity package: structured evidence and fictional examples, HTML renderer, browser logic, prepared guidance, and helper styles. `assets/styles/` retains the portfolio fonts and the Light and Dark palettes. Update source files and regenerate committed HTML with `python tools/build_site.py`; `--check` rejects drift.
 
 ```sh
 python tools/validate_site.py
@@ -33,7 +33,7 @@ On Windows, set `QA_BROWSER` using your shell environment syntax. Local checks o
 
 ## Privacy
 
-The form and prepared helper run entirely in the browser. Reflection content never enters a URL, network request, identity state, or analytics. Unfinished helper answers remain temporary. Explicitly accepted text follows the form's opt-in saving controls.
+The form and prepared helper run entirely in the browser. Reflection content never enters a URL, network request, identity state, or analytics. Private controls suppress browser autocomplete; saved drafts open only after explicit Resume. Unfinished helper answers remain temporary. Explicitly accepted text follows the form's opt-in saving controls.
 
 Compatible saved reflections retain `signal-and-self-reflection-v1`, since the two GitHub project sites share an origin. Theme and reading choices use separate project keys. No other portfolio storage is read. This shared origin is not isolation against other same-origin scripts; device drafts are for convenience and should not contain sensitive information.
 

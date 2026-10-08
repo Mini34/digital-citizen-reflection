@@ -40,11 +40,21 @@
     if(!control.checkValidity())return control.type==='number'?'Enter a whole number from 0 to 1,440 minutes.':'Check this value before building your plan.';
     return '';
   }
+  function updateErrorSummary() {
+    const invalid=fields.map(id=>$('#'+id)).find(control=>control.getAttribute('aria-invalid')==='true'&&errorMessage(control));
+    const summary=$('#reflection-error-summary');
+    summary.hidden=!invalid;
+    if(invalid) {
+      const section=invalid.closest('.reflection-step');
+      const message='There’s an answer to check in step '+(Number(section.dataset.step)+1)+'. '+errorMessage(invalid);
+      if(summary.textContent!==message)summary.textContent=message;
+    }
+  }
   function clearError(control) {
     if(!errorMessage(control)) {
       $('#'+control.id+'-error').hidden=true;control.removeAttribute('aria-invalid');
-      $('#reflection-error-summary').hidden=true;
     }
+    updateErrorSummary();
   }
   function updateRisk() {
     const custom=$('#risk').value==='other';$('#riskDetail').required=custom;
@@ -102,7 +112,7 @@
       const invalid=fields.map(id=>$('#'+id)).find(el=>section.contains(el)&&errorMessage(el));
       if (invalid) {
         navigate(i,false);const error=$('#'+invalid.id+'-error');error.textContent=errorMessage(invalid);error.hidden=false;invalid.setAttribute('aria-invalid','true');
-        const summary=$('#reflection-error-summary');summary.textContent='There’s an answer to check in step '+(i+1)+'. '+error.textContent;summary.hidden=false;
+        updateErrorSummary();
         invalid.focus();if(invalid.value.trim()==='')document.dispatchEvent(new CustomEvent('dcr:validation-missing',{detail:{id:invalid.id}}));return;
       }
     }
@@ -143,7 +153,7 @@
   });
   $('#reflection-clear').addEventListener('click',()=>{$('#reflection-clear-confirm').hidden=false;$('#reflection-clear-yes').focus();});
   $('#reflection-clear-yes').addEventListener('click',clear); $('#reflection-clear-no').addEventListener('click',()=>{$('#reflection-clear-confirm').hidden=true;$('#reflection-clear').focus();});
-  $('#reflection-resume-button').addEventListener('click',()=>{if(!stored)return;activeTopic=stored.topic;mode=stored.mode;renderTopic();fields.forEach(f=>$('#'+f).value=stored[f]);updateRisk();renderMode();arithmetic();saving=true;$('#reflection-save').checked=true;$('#reflection-resume').hidden=true;navigate(stored.step);});
+  $('#reflection-resume-button').addEventListener('click',()=>{if(!stored)return;activeTopic=stored.topic;mode=stored.mode;renderTopic();fields.forEach(f=>$('#'+f).value=stored[f]);updateRisk();fields.forEach(f=>clearError($('#'+f)));renderMode();arithmetic();saving=true;$('#reflection-save').checked=true;$('#reflection-resume').hidden=true;navigate(stored.step);});
   $('#reflection-download').addEventListener('click',()=>{
     const text=['Digital Citizen Reflection', $('#summary-mode').textContent,'',...summaryRows().map(([k,v])=>`${k}\n${v}\n`),'Sources',...data.sources.filter(s=>s.topics.includes(activeTopic)).map(s=>`${s.publisher}: ${s.url}`)].join('\n');
     const blob=new Blob([text],{type:'text/plain;charset=utf-8'}), url=URL.createObjectURL(blob), a=document.createElement('a');a.href=url;a.download='digital-citizen-action-plan.txt';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
